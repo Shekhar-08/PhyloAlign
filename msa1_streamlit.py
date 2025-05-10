@@ -79,7 +79,7 @@ add_lightgreen_bg_image()
 
 # --- CLUSTALO PATH FOR LINUX ---
 # Updated path for Linux environment
-CLUSTALO_PATH = "/home/despu/myenv/clustalo"
+CLUSTALO_PATH = "clustalo"
 
 # Verify Clustal Omega is executable
 try:
