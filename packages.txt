@@ -1,1 +1,1 @@
-clustalo
+/home/despu/myenv/clustalo
