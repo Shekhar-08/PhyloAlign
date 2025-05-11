@@ -579,7 +579,6 @@ if selection == "About":
         
         **Version:** 1.0  
         **Author:** Shekhar Gudda  
-        **License:** MIT  
         
         Built with:
         - Streamlit
@@ -645,7 +644,7 @@ if selection == "About":
         </p>
                 <hr style='border: 0.5px solid #27ae60; margin: 20px 0; opacity: 0.3;'>
                 </p>
-                <h4 style='color:#1e8449; margin-top: 0;'>🙏 Acknowledgments</h4>
+                <h4 style='color:#1e8449; margin-top: 0;'>🙏 Acknowledgment</h4>
                 <p>
                     I would like to sincerely thank <strong>Dr. Kushagra Kashyap</strong>, Assistant Professor, 
                     School of Science and Mathematics, DES Pune University, for his valuable guidance, 
@@ -670,7 +669,6 @@ if selection == "About":
         <div style='margin-top: 20px; font-size: 0.9em; color: #555;'>
             <p>
                 <strong>Version:</strong> 1.0 | <strong>Last Updated:</strong> May 2025<br>
-                <strong>License:</strong> MIT Open Source
             </p>
         </div>
     </div>
@@ -697,76 +695,3 @@ if selection == "Feedback & Contact":
             st.success("Thank you for your feedback! We'll get back to you soon.")
             
 
-# --- User Guide ---
-if selection == "User Guide":
-    st.header("📘 PhyloAlign User Guide")
-        
-    
-    with st.expander("🧬 **How to Use (3 Steps)**"):
-        st.markdown("""
-        ### 1. Input Sequences
-        **Option A: Paste Manually**
-        1. Go to → *Sequence Input → Paste Sequences*
-        2. Copy-paste in FASTA format:
-           ```
-           >Human_HBB
-           ACGTACGT...
-           ```
-        3. Click *Submit Sequences*
-
-        **Option B: Upload File**
-        1. Go to → *Sequence Input → Upload FASTA File*
-        2. Select your `.fasta` file
-
-        ### 2. View Alignment
-        - Automatic results in:
-          - Color-coded sequences
-          - Text alignment (FASTA)
-          - Sequence logo (conservation)
-
-        ### 3. Phylogenetic Tree
-        - Navigate to → *Phylogenetic Tree*
-        - Interactive visualization appears
-        - Download as Newick file
-        """)
-
-    with st.expander("🔍 **Examples**"):
-        st.markdown("""
-        **Sample FASTA Format:**
-        ```fasta
-        >Human_Hemoglobin
-        MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDL
-        >Chimpanzee_Hemoglobin  
-        MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDL
-        ```
-        """)
-
-    with st.expander("⚠️ **Troubleshooting**"):
-        st.markdown("""
-        - **Format Error?** Ensure headers start with `>`
-        - **Slow Performance?** Try <100 sequences
-        - **Tree Not Loading?** Reduce sequence length
-        - **Visualization Issues?** Download the full image
-        """)
-
-    st.markdown("---")
-    st.markdown("""
-    **Need more help?**  
-    📧 Email: shekhargudda844@gmail.com  
-    💻 GitHub: [github.com/Shekhar-08](https://github.com/Shekhar-08)
-    """)
-
-    # Optional: Add a download button for the guide
-    guide_text = """
-    PhyloAlign Quick Guide:
-    1. Input: Paste/upload FASTA sequences
-    2. Alignment: View color-coded results
-    3. Tree: See evolutionary relationships
-    Troubleshooting: Check sequence format if errors occur
-    Contact: shekhargudda844@gmail.com
-    """
-    st.download_button(
-        label="📥 Download Quick Guide (TXT)",
-        data=guide_text,
-        file_name="phyloalign_quick_guide.txt"
-    )
