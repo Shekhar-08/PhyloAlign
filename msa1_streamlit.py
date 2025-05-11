@@ -6,6 +6,7 @@ from Bio.Align import MultipleSeqAlignment
 from Bio.Align.Applications import ClustalOmegaCommandline
 from Bio.Phylo import draw
 from pathlib import Path
+from io import BytesIO
 from io import StringIO
 import tempfile
 import os
@@ -122,7 +123,6 @@ with st.sidebar.expander("**NAVIGATION**", expanded=True):
             "Sequence Input",
             "Alignment Results",
             "Phylogenetic Tree",
-            "User Guide",
             "About",
             "Feedback & Contact"
         ],
@@ -178,6 +178,53 @@ if selection == "Home":
             </p>
         </div>
     """, unsafe_allow_html=True)
+
+    st.markdown("---")
+    
+    with st.expander("📘 User Guide", expanded=False):
+        st.markdown("""
+        ### How to Use (3 Simple Steps)
+        
+        **1. Input Sequences**
+        - **Option A: Paste Manually**
+          1. Go to → *Sequence Input → Paste Sequences*
+          2. Copy-paste in FASTA format:
+             ```
+             >Human_HBB
+             ACGTACGT...
+             ```
+          3. Click *Submit Sequences*
+
+        - **Option B: Upload File**
+          1. Go to → *Sequence Input → Upload FASTA File*
+          2. Select your `.fasta` file
+
+        **2. View Alignment**
+        - Automatic results in:
+          - Color-coded sequences
+          - Text alignment (FASTA)
+          - Sequence logo (conservation)
+
+        **3. Phylogenetic Tree**
+        - Navigate to → *Phylogenetic Tree*
+        - Interactive visualization appears
+        - Download as Newick file
+
+        ### Examples
+        **Sample FASTA Format:**
+        ```fasta
+        >Human_Hemoglobin
+        MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDL
+        >Chimpanzee_Hemoglobin  
+        MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDL
+        ```
+
+        ### Troubleshooting
+        - **Format Error?** Ensure headers start with `>`
+        - **Slow Performance?** Try <100 sequences
+        - **Tree Not Loading?** Reduce sequence length
+        - **Visualization Issues?** Download the full image
+        """)
 
 # --- SEQUENCE INPUT SECTION ---
 if selection == "Sequence Input":
@@ -359,6 +406,17 @@ if selection == "Alignment Results":
             with st.spinner("Generating visualization..."):
                 fig = plot_alignment(alignment)
                 st.pyplot(fig, use_container_width=True)
+                
+                # Add download button for color-coded alignment
+                buf = BytesIO()
+                fig.savefig(buf, format="png", dpi=300, bbox_inches='tight')
+                plt.close(fig)
+                st.download_button(
+                    label="📥 Download Color-coded Alignment (PNG)",
+                    data=buf.getvalue(),
+                    file_name="color_coded_alignment.png",
+                    mime="image/png"
+                )
         except Exception as e:
             st.error(f"Visualization error: {str(e)}")
             st.info("Showing sequence logo instead...")
@@ -367,10 +425,20 @@ if selection == "Alignment Results":
                 logo_fig, ax = plt.subplots(figsize=(20, 5))
                 logomaker.Logo(counts_df, ax=ax)
                 st.pyplot(logo_fig)
-            except:
-                st.error("Could not generate any visualization")
+                
+                # Add download button for sequence logo
+                buf = BytesIO()
+                logo_fig.savefig(buf, format="png", dpi=300, bbox_inches='tight')
+                plt.close(logo_fig)
+                st.download_button(
+                    label="📥 Download Sequence Logo (PNG)",
+                    data=buf.getvalue(),
+                    file_name="sequence_logo.png",
+                    mime="image/png"
+                )
+            except Exception as e2:
+                st.error(f"Could not generate any visualization: {str(e2)}")
         
-        plt.close('all')
         st.markdown("---")
     
     # Sequence Logo
@@ -449,10 +517,20 @@ if selection == "Alignment Results":
                     st.markdown('<div class="logo-container">', unsafe_allow_html=True)
                     st.pyplot(fig, use_container_width=False)
                     st.markdown('</div>', unsafe_allow_html=True)
+                    
+                # Add download button for sequence logo
+                buf = BytesIO()
+                fig.savefig(buf, format="png", dpi=300, bbox_inches='tight')
+                plt.close(fig)
+                st.download_button(
+                    label="📥 Download Sequence Logo (PNG)",
+                    data=buf.getvalue(),
+                    file_name="sequence_logo.png",
+                    mime="image/png"
+                )
                 
         except Exception as e:
             st.error(f"Visualization error: {str(e)}")
-            # Fallback option here
         
         finally:
             plt.close('all')
